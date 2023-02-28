@@ -10,7 +10,7 @@ import {IPHistory} from "./db/models/ip_history";
  * App plugin where we construct our routes
  * @param {FastifyInstance} app our main Fastify app instance
  */
-export async function doggr_routes(app: FastifyInstance): Promise<void> {
+export async function pintensity_routes(app: FastifyInstance): Promise<void> {
 
 	// Middleware
 	// TODO: Refactor this in favor of fastify-cors
