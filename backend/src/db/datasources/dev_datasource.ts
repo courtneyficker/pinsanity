@@ -5,10 +5,6 @@ import { DataSource } from 'typeorm';
 import { User } from "../models/user";
 import { IPHistory } from "../models/ip_history";
 import { Initialize1676281754950 } from "../migrations/1676281754950-Initialize";
-import { Profile } from "../models/profile.js";
-import { ProfilesMigration1676586883555 } from "../migrations/1676586883555-ProfilesMigration.js";
-import { Match } from "../models/match.js";
-import { ProfileMatchesMigration1676589770005 } from "../migrations/1676589770005-ProfileMatchesMigration.js";
 
 dotenv.config();
 
@@ -26,13 +22,9 @@ export const AppDataSource = new DataSource({
     entities: [
         User,
         IPHistory,
-        Profile,
-        Match
     ],
     migrations: [
         Initialize1676281754950,
-        ProfilesMigration1676586883555,
-        ProfileMatchesMigration1676589770005
     ],
     // DANGER DANGER our convenience will nuke production data!
     synchronize: false
