@@ -1,0 +1,2 @@
+88,Hobby Dabe,PA Staff Series 2,/images/PAX14/pin_hobby_dabe.png,88.png
+87,Thunder,,/images/Other14/pin_thunder.png,87.png

@@ -3,6 +3,7 @@ import {
 	BaseEntity,
 	Column,
 	CreateDateColumn,
+	DeleteDateColumn,
 	Entity,
 	OneToMany,
 	PrimaryGeneratedColumn,
@@ -18,26 +19,27 @@ import {IPHistory} from "./ip_history";
 @Entity({name: "users"})
 export class User extends BaseEntity {
 	@PrimaryGeneratedColumn()
-	id: number;
+	id!: number;
 
 	@Column({
 		length: 100,
 		type: "varchar"
 	})
-	name: string;
+	username!: string;
 
 	@Column('text')
-	email: string;
+	email!: string;
 
 	// IPHistory
 	@OneToMany((type) => IPHistory, (ip: IPHistory) => ip.user)
-	ips: Relation<IPHistory[]>;
-
-
+	ips!: Relation<IPHistory[]>;
 
 	@CreateDateColumn()
-	created_at: string;
+	created_at!: string;
 
 	@UpdateDateColumn()
-	updated_at: string;
+	updated_at!: string;
+
+	@DeleteDateColumn()
+	deleted_at?: string;
 }
