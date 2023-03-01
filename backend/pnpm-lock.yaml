@@ -26,6 +26,7 @@ specifiers:
   fastify-env: ^2.2.0
   fastify-plugin: ^4.5.0
   jsdoc: ^4.0.0
+  papaparse: ^5.3.2
   pg: ^8.9.0
   pino: ^8.8.0
   pino-pretty: ^9.1.1
@@ -56,6 +57,7 @@ dependencies:
   fastify-cors: 6.1.0
   fastify-env: 2.2.0
   fastify-plugin: 4.5.0
+  papaparse: 5.3.2
   pg: 8.9.0
   pino: 8.8.0
   reflect-metadata: 0.1.13
@@ -3967,6 +3969,10 @@ packages:
 
   /packet-reader/1.0.0:
     resolution: {integrity: sha512-HAKu/fG3HpHFO0AA8WE8q2g+gBJaZ9MG7fcKk+IJPLTGAD6Psw4443l+9DGRbOIh3/aXr7Phy0TjilYivJo5XQ==}
+
+  /papaparse/5.3.2:
+    resolution: {integrity: sha512-6dNZu0Ki+gyV0eBsFKJhYr+MdQYAzFUGlBMNj3GNrmHxmz1lfRa24CjFObPXtjcetlOv5Ad299MhIK0znp3afw==}
+    dev: false
 
   /parent-module/1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
