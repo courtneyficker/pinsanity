@@ -1,5 +1,14 @@
 /** @module Models/IPHistory */
-import {BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Relation} from "typeorm";
+import {
+	BaseEntity,
+	Column,
+	CreateDateColumn,
+	DeleteDateColumn,
+	Entity,
+	ManyToOne,
+	PrimaryGeneratedColumn,
+	Relation
+} from "typeorm";
 import {User} from "./user";
 
 /**
