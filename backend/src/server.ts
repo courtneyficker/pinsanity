@@ -7,7 +7,7 @@ import Fastify, {FastifyInstance} from "fastify";
 import path from "path";
 import {getDirName} from "./lib/helpers";
 import logger from "./lib/logger";
-import {pintensity_routes} from "./routes";
+import {pinsanity_routes} from "./routes";
 import DbPlugin from "./plugins/database";
 
 
@@ -38,7 +38,7 @@ export async function buildApp(useLogging: boolean) {
 
 		// Adds all of our Router's routes to the app
 		app.log.info("Registering routes");
-		await app.register(pintensity_routes);
+		await app.register(pinsanity_routes);
 
 		// Connects to postgres
 		app.log.info("Connecting to Database...");

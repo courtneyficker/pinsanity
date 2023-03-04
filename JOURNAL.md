@@ -21,3 +21,9 @@
 > * Include main pin list update script
 > 
 > That's probably in order of increasing difficulty.
+
+## 3 March 2023
+
+> I have spent way too much time obsessing over the name. Nothing sits better with me than **Pinsanity**, so even though I can't have the .com, I went ahead and registered the ".app" domain. I'm not going to bother changing the name in the project until later, in case I change my mind again.
+
+> I have the backend working, and by that I mean docker and `pnpm dev` will build and run without errors. There are a lot of tables to add, and considering the confusion I had with building queries in typeorm on assignment 2, I am a little worried that the queries are going to be even more complicated.

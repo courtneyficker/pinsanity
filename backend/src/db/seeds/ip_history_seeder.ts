@@ -28,7 +28,7 @@ export class IPHistorySeeder extends Seeder {
 		// get our users and make each a few IPs
 		const users = await User.find();
 
-		for (let i = 0; i < users.length; i++) {
+		for (let i = 1; i < users.length+1; i++) {
 	  let ip = new IPHistory();
 	  ip.user = users[i];
 	  ip.ip = faker.internet.ip();

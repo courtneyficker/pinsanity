@@ -4,7 +4,7 @@ import { DataSource } from 'typeorm';
 // Similar reasoning as above, we need to add the file extensions to this file's imports for CLI usage
 import { User } from "../models/user";
 import { IPHistory } from "../models/ip_history";
-import { Initialize1676281754950 } from "../migrations/1676281754950-Initialize";
+import { Initial1677923374030 } from "../migrations/1677923374030-Initial";
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ export const AppDataSource = new DataSource({
         IPHistory,
     ],
     migrations: [
-        Initialize1676281754950,
+        Initial1677923374030,
     ],
     // DANGER DANGER our convenience will nuke production data!
     synchronize: false

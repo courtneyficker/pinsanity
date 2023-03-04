@@ -20,9 +20,9 @@ export class UserSeeder extends Seeder {
 		// https://github.com/typeorm/typeorm/issues/1649
 		await app.db.user.delete({});
 
-		for (let i = 0; i < 10; i++) {
+		for (let i = 1; i < 11; i++) {
 			let user = new User();
-			user.name = "user" + i;
+			user.username = "user" + i;
 			user.email = "user" + i + "@email.com";
 			await user.save();
 			app.log.info("Seeded user " + i);

@@ -9,9 +9,9 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=pintensity
-      - POSTGRES_PASSWORD=pintensity
-      - POSTGRES_DB=pintensity
+      - POSTGRES_USER=pinsanity
+      - POSTGRES_PASSWORD=pinsanity
+      - POSTGRES_DB=pinsanity
     #network_mode: host
 #  backend:
 #    container_name: backend
