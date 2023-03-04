@@ -2,9 +2,15 @@
 import cors from "cors";
 import fs from "fs/promises";
 import path from "path";
-import {FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions} from "fastify";
-import {User} from "./db/models/user";
-import {IPHistory} from "./db/models/ip_history";
+import { FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions } from "fastify";
+import { User } from "./db/models/user";
+import { IPHistory } from "./db/models/ip_history";
+import { Category } from "./db/models/category";
+import { Company } from "./db/models/company";
+import { Type } from "./db/models/type";
+import { Pin } from "./db/models/pin";
+
+import { IPostUsersBody, post_users_opts, IPostUsersResponse } from "./types";
 
 /**
  * App plugin where we construct our routes
@@ -55,31 +61,6 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		reply.send(users);
 	});
 
-	// CRUD impl for users
-	// Create new user
-
-	// Appease fastify gods
-	const post_users_opts: RouteShorthandOptions = {
-		schema: {
-			body: {
-				type: 'object',
-				properties: {
-					name: {type: 'string'},
-					email: {type: 'string'}
-				}
-			},
-			response: {
-				200: {
-					type: 'object',
-					properties: {
-						user: {type: 'object'},
-						ip_address: {type: 'string'}
-					}
-				}
-			}
-		}
-	};
-
 	/**
 	 * Route allowing creation of a new user.
 	 * @name post/users
@@ -110,24 +91,4 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		await reply.send(JSON.stringify({user, ip_address: ip.ip}));
 	});
 
-}
-
-// Appease typescript request gods
-interface IPostUsersBody {
-	name: string,
-	email: string,
-}
-
-/**
- * Response type for post/users
- */
-export type IPostUsersResponse = {
-	/**
-	 * User created by request
-	 */
-	user: User,
-	/**
-	 * IP Address user used to create account
-	 */
-	ip_address: string
 }
