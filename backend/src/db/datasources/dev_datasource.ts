@@ -10,7 +10,7 @@ import { AddCategory1677931287155 } from "../migrations/1677931287155-AddCategor
 import { Company } from "../models/company";
 import { AddCompany1677931746347 } from "../migrations/1677931746347-AddCompany";
 import { Type } from "../models/type";
-import { AddType1677931945695 } from "db/migrations/1677931945695-AddType";
+import { AddType1677931945695 } from "../migrations/1677931945695-AddType";
 
 dotenv.config();
 
