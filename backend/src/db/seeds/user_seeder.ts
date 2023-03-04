@@ -8,7 +8,7 @@ import {FastifyInstance} from "fastify";
  */
 export class UserSeeder extends Seeder {
 	/**
-	 * Runs the IPHistory table's seed
+	 * Runs the User table's seed
 	 * @function
 	 * @param {FastifyInstance} app
 	 * @returns {Promise<void>}

@@ -5,6 +5,12 @@ import { DataSource } from 'typeorm';
 import { User } from "../models/user";
 import { IPHistory } from "../models/ip_history";
 import { Initial1677923374030 } from "../migrations/1677923374030-Initial";
+import { Category } from "../models/category";
+import { AddCategory1677931287155 } from "../migrations/1677931287155-AddCategory";
+import { Company } from "../models/company";
+import { AddCompany1677931746347 } from "../migrations/1677931746347-AddCompany";
+import { Type } from "../models/type";
+import { AddType1677931945695 } from "db/migrations/1677931945695-AddType";
 
 dotenv.config();
 
@@ -22,9 +28,15 @@ export const AppDataSource = new DataSource({
     entities: [
         User,
         IPHistory,
+        Category,
+        Company,
+        Type,
     ],
     migrations: [
         Initial1677923374030,
+        AddCategory1677931287155,
+        AddCompany1677931746347,
+        AddType1677931945695,
     ],
     // DANGER DANGER our convenience will nuke production data!
     synchronize: false
