@@ -12,7 +12,7 @@ import {
 	UpdateDateColumn
 } from "typeorm";
 
-// import {Pin} from "./pin";
+import {Pin} from "./pin";
 
 /**
  *  Class representing type table
@@ -28,9 +28,9 @@ export class Type extends BaseEntity {
 	})
 	type!: string;
 
-	// // Pins
-	// @OneToMany((type) => Pin, (pin: Pin) => pin.type)
-	// pins?: Relation<Pin[]>;
+	// Pins
+	@OneToMany((type) => Pin, (pin: Pin) => pin.type)
+	pins?: Relation<Pin[]>;
 
 	@CreateDateColumn()
 	created_at!: string;

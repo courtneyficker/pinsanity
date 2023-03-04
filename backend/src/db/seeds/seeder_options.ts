@@ -6,6 +6,7 @@ import {Seeder} from "../../lib/seed_manager";
 import { CategorySeed } from "./category_seeder";
 import { CompanySeed } from "./company_seeder";
 import { TypeSeed } from "./type_seeder";
+import { PinSeed } from "./pin_seeder";
 
 export type SeederOptionsType = {
 	seeds: Array<Seeder>;
@@ -21,7 +22,7 @@ const SeederOptions: any = {
 		CategorySeed,
 		CompanySeed,
 		TypeSeed,
-		// PinSeed,
+		PinSeed,
 	]
 };
 
