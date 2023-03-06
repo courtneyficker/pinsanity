@@ -291,4 +291,49 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		reply.send(pins);
 	});
 
+
+	// *** PINS *** //
+
+	/**
+		 * Route to retrieve all pins
+		 * @name get/pins
+		 * @function
+		 */
+	app.get("/pins", async (req: FastifyRequest, reply: FastifyReply) => {
+		let pins = await app.db.pin.find();
+		reply.send(pins);
+	});
+
+	/**
+	 * Route to retrieve information about a single pin
+	 * @name get/pin
+	 * @function
+	 * @param {number} pinID - ID of pin
+	 * @returns { Pin } A pin and all related info
+	 */
+	app.get("/pin/:pinID", async (req: any, reply: FastifyReply) => {
+		const pinID = req.params.pinID;
+		console.log("Pin ID:", pinID);
+
+		const pin = await Pin.findOne({
+			select: {
+				id: true,
+				name: true,
+				info: true,
+				releaseDate: true,
+				created_at: false,
+				updated_at: false,
+			},
+			relations: {
+				category: true,
+				company: true,
+				type: true,
+			},
+			where: {
+				id: pinID,
+			}
+		});
+
+		reply.send(pin);
+	});
 }
