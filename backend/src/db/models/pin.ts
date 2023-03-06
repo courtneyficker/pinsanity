@@ -38,19 +38,22 @@ export class Pin extends BaseEntity {
 
 	// Category
     @ManyToOne((type) => Category, (category: Category) => category.pins, {
-        onDelete: "CASCADE",
+        cascade: true,			// Create category if new
+		onDelete: "CASCADE",	// Delete a pin's categories if pin deleted
     })
     category: Relation<Category>;
 	
 	// Company
     @ManyToOne((type) => Company, (company: Company) => company.pins, {
-        onDelete: "CASCADE",
+        cascade: true,			// Create company if new
+		onDelete: "CASCADE",	// Delete a pin's company if pin deleted
     })
     company: Relation<Company>;
 
 	// Type
     @ManyToOne((type) => Type, (type: Type) => type.pins, {
-        onDelete: "CASCADE",
+        cascade: true,			// Create type if new
+		onDelete: "CASCADE",	// Delete a pin's type if pin deleted
     })
     type: Relation<Type>;
 
@@ -60,6 +63,6 @@ export class Pin extends BaseEntity {
 	@UpdateDateColumn()
 	updated_at!: string;
 
-	@DeleteDateColumn()
+	@DeleteDateColumn({select: false})
 	deleted_at?: string;
 }

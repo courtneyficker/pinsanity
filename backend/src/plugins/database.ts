@@ -6,7 +6,10 @@ import {User} from "../db/models/user";
 import {IPHistory} from "../db/models/ip_history";
 import {FastifyInstance, FastifyPluginOptions} from "fastify";
 import {AppDataSource} from "../db/datasources/dev_datasource";
-
+import { Category } from "../db/models/category";
+import { Company } from "../db/models/company";
+import { Type } from "../db/models/type";
+import { Pin } from "../db/models/pin";
 
 
 /** This is AWESOME - we're telling typescript we're adding our own "thing" to base 'app', so we get FULL IDE/TS support */
@@ -25,9 +28,14 @@ declare module 'fastify' {
 }
 
 interface DBConfigOpts {
+	connection: DataSource,
 	user: Repository<User>,
 	ip: Repository<IPHistory>,
-	connection: DataSource,
+	category: Repository<Category>,
+	company: Repository<Company>,
+	type: Repository<Type>,
+	pin: Repository<Pin>,
+	
 }
 
 /**
@@ -48,6 +56,10 @@ const DbPlugin = fp(async (app: FastifyInstance, options: FastifyPluginOptions, 
 		connection: dataSourceConnection,
 		user: dataSourceConnection.getRepository(User),
 		ip: dataSourceConnection.getRepository(IPHistory),
+		category: dataSourceConnection.getRepository(Category),
+		company: dataSourceConnection.getRepository(Company),
+		type: dataSourceConnection.getRepository(Type),
+		pin: dataSourceConnection.getRepository(Pin),
 	});
 
 	done();

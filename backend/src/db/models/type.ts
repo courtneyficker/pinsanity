@@ -26,18 +26,18 @@ export class Type extends BaseEntity {
 		length: 50,
 		type: "varchar"
 	})
-	Type!: string;
+	type!: string;
 
 	// Pins
 	@OneToMany((type) => Pin, (pin: Pin) => pin.type)
 	pins?: Relation<Pin[]>;
 
-	@CreateDateColumn()
+	@CreateDateColumn({select: false})
 	created_at!: string;
 
-	@UpdateDateColumn()
+	@UpdateDateColumn({select: false})
 	updated_at!: string;
 
-	@DeleteDateColumn()
+	@DeleteDateColumn({select: false})
 	deleted_at?: string;
 }

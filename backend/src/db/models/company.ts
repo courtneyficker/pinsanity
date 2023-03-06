@@ -32,12 +32,12 @@ export class Company extends BaseEntity {
 	@OneToMany((type) => Pin, (pin: Pin) => pin.company)
 	pins?: Relation<Pin[]>;
 
-	@CreateDateColumn()
+	@CreateDateColumn({select: false})
 	created_at!: string;
 
-	@UpdateDateColumn()
+	@UpdateDateColumn({select: false})
 	updated_at!: string;
 
-	@DeleteDateColumn()
+	@DeleteDateColumn({select: false})
 	deleted_at?: string;
 }

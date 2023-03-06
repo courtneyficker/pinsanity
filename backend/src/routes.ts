@@ -2,9 +2,32 @@
 import cors from "cors";
 import fs from "fs/promises";
 import path from "path";
-import {FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions} from "fastify";
-import {User} from "./db/models/user";
-import {IPHistory} from "./db/models/ip_history";
+import { FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions } from "fastify";
+import { User } from "./db/models/user";
+import { IPHistory } from "./db/models/ip_history";
+import { Category } from "./db/models/category";
+import { Company } from "./db/models/company";
+import { Type } from "./db/models/type";
+import { Pin } from "./db/models/pin";
+
+import { 
+	IPostUsersBody,
+	post_users_opts,
+	IPostUsersResponse,
+	IDeleteUsersBody,
+	delete_users_opts,
+	IDeleteUsersResponse,
+} from "./types";
+import { FindOptionsUtils } from "typeorm";
+
+/*
+ * Routes implemented so far:
+ * /			:	GET /
+ * users		:	GET /users, GET /user:id, DELETE /user, POST /user
+ * categories	:	GET /categories, GET /category:id
+ * companies	:	GET /companies
+ * types		:	GET /types
+ */
 
 /**
  * App plugin where we construct our routes
@@ -45,6 +68,8 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		reply.status(200).send(indexFile);
 	});
 
+	// *** USERS *** //
+
 	/**
 	 * Route serving login form.
 	 * @name get/users
@@ -55,30 +80,12 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		reply.send(users);
 	});
 
-	// CRUD impl for users
-	// Create new user
+	app.get("/user/:id", async(req: any, reply) => {
+		let userID = req.params.id;
+		let user = await User.findOneByOrFail({ id: userID });
 
-	// Appease fastify gods
-	const post_users_opts: RouteShorthandOptions = {
-		schema: {
-			body: {
-				type: 'object',
-				properties: {
-					name: {type: 'string'},
-					email: {type: 'string'}
-				}
-			},
-			response: {
-				200: {
-					type: 'object',
-					properties: {
-						user: {type: 'object'},
-						ip_address: {type: 'string'}
-					}
-				}
-			}
-		}
-	};
+		await reply.send(JSON.stringify({ user }));
+	});
 
 	/**
 	 * Route allowing creation of a new user.
@@ -110,24 +117,223 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		await reply.send(JSON.stringify({user, ip_address: ip.ip}));
 	});
 
-}
-
-// Appease typescript request gods
-interface IPostUsersBody {
-	name: string,
-	email: string,
-}
-
-/**
- * Response type for post/users
- */
-export type IPostUsersResponse = {
 	/**
-	 * User created by request
+	 * Route allowing deletion of a user.
+	 * @name delete/user
+	 * @function
+	 * @param {number} userID - ID of user in User table
+	 * @returns {IDeleteUsersResponse} user
 	 */
-	user: User,
+	app.delete<{
+		Body: IDeleteUsersBody,
+		Reply: IDeleteUsersResponse,
+	}>("/user", delete_users_opts, async (req, reply: FastifyReply) => {
+		const id = req.body.userID;
+		console.log('Deleting user %d', id);
+		try {
+			const myUser = await app.db.user.findOneByOrFail({ id: id });
+
+			let res = await myUser.softRemove();
+
+			//manually JSON stringify due to fastify bug with validation
+			// https://github.com/fastify/fastify/issues/4017
+			await reply.send(JSON.stringify(res));
+		}
+		catch {
+			await reply.status(404).send(`User ${id} not found.`)
+		}
+	});
+
+
+	// *** CATEGORIES *** //
+
 	/**
-	 * IP Address user used to create account
+	 * Route to retrieve list of all categories
+	 * @name get/categories
+	 * @function
 	 */
-	ip_address: string
+	app.get("/categories", async (req, reply: FastifyReply) => {
+		let categories = await app.db.category.find();
+		reply.send(categories);
+	});
+
+	/**
+	 * Route to retrieve all pins in a category
+	 * @name get/category
+	 * @function
+	 * @param {number} catID - ID of selected category
+	 * @returns { Pin[] } List of pins
+	 */
+	app.get("/category/:catID", async (req: any, reply: FastifyReply) => {
+		const categoryID = req.params.categoryID;
+		console.log("Category ID:", categoryID);
+
+		const pins = await Pin.find({
+			select: {
+				name: true,
+				info: true,
+				releaseDate: true,
+				created_at: false,
+				updated_at: false,
+			},
+			relations: {
+				// Why doesn't this work???
+				// category: {
+				// 	id: false,
+				// 	category: true,
+				// },
+				category: true,
+				company: false,
+				type: false,
+			},
+			where: {
+				category: {
+					id: categoryID,
+				}
+			}
+		});
+
+		reply.send(pins);
+	});
+
+
+	// *** COMPANIES *** //
+
+	/**
+		 * Route to retrieve Company info
+		 * @name get/companies
+		 * @function
+		 */
+	app.get("/companies", async (req, reply: FastifyReply) => {
+		let companies = await app.db.company.find();
+		reply.send(companies);
+	});
+
+	/**
+	 * Route to retrieve all pins from a particular company
+	 * @name get/company
+	 * @function
+	 * @param {number} comID - ID of selected company
+	 * @returns { Pin[] } List of pins
+	 */
+	app.get("/company/:comID", async (req: any, reply: FastifyReply) => {
+		const companyID = req.params.comID;
+		console.log("Company ID:", companyID);
+
+		const pins = await Pin.find({
+			select: {
+				name: true,
+				info: true,
+				releaseDate: true,
+				created_at: false,
+				updated_at: false,
+			},
+			relations: {
+				category: false,
+				company: true,
+				type: false,
+			},
+			where: {
+				company: {
+					id: companyID,
+				}
+			}
+		});
+
+		reply.send(pins);
+	});
+
+
+
+	// *** TYPES *** //
+
+	/**
+		 * Route to retrieve Type info
+		 * @name get/types
+		 * @function
+		 */
+	app.get("/types", async (req, reply: FastifyReply) => {
+		let types = await app.db.type.find();
+		reply.send(types);
+	});
+
+	/**
+	 * Route to retrieve all pins of a particular type
+	 * @name get/type
+	 * @function
+	 * @param {number} typeID - ID of selected company
+	 * @returns { Pin[] } List of pins
+	 */
+	app.get("/type/:typeID", async (req: any, reply: FastifyReply) => {
+		const typeID = req.params.typeID;
+		console.log("Type ID:", typeID);
+
+		const pins = await Pin.find({
+			select: {
+				name: true,
+				info: true,
+				releaseDate: true,
+				created_at: false,
+				updated_at: false,
+			},
+			relations: {
+				category: false,
+				company: false,
+				type: true,
+			},
+			where: {
+				type: {
+					id: typeID,
+				}
+			}
+		});
+
+		reply.send(pins);
+	});
+
+
+	// *** PINS *** //
+
+	/**
+		 * Route to retrieve all pins
+		 * @name get/pins
+		 * @function
+		 */
+	app.get("/pins", async (req: FastifyRequest, reply: FastifyReply) => {
+		let pins = await app.db.pin.find();
+		reply.send(pins);
+	});
+
+	/**
+	 * Route to retrieve information about a single pin
+	 * @name get/pin
+	 * @function
+	 * @param {number} pinID - ID of pin
+	 * @returns { Pin } A pin and all related info
+	 */
+	app.get("/pin/:pinID", async (req: any, reply: FastifyReply) => {
+		const pinID = req.params.pinID;
+		console.log("Pin ID:", pinID);
+
+		const pin = await Pin.findOne({
+			select: {
+				id: true,
+				name: true,
+				info: true,
+				releaseDate: true,
+				created_at: false,
+				updated_at: false,
+			},
+			relations: {
+				category: true,
+				company: true,
+				type: true,
+			},
+			where: {
+				id: pinID,
+			}
+		});
+
+		reply.send(pin);
+	});
 }
