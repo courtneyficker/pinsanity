@@ -15,6 +15,7 @@ import {
 import { Category } from "./category";
 import { Company } from "./company";
 import { Type } from "./type";
+import { List } from "./list";
 
 /**
  *  Class representing pin table
@@ -57,10 +58,14 @@ export class Pin extends BaseEntity {
     })
     type: Relation<Type>;
 
-	@CreateDateColumn()
+	// Lists featuring this pin
+	@ManyToMany(() => List, (list: List) => list.pins)
+    lists: List[]
+
+	@CreateDateColumn({select: false})
 	created_at!: string;
 
-	@UpdateDateColumn()
+	@UpdateDateColumn({select: false})
 	updated_at!: string;
 
 	@DeleteDateColumn({select: false})

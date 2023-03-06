@@ -34,12 +34,14 @@ export class List extends BaseEntity {
     // User
     @ManyToOne((type) => User, (user: User) => user.lists, {
         cascade: true,			// Create type if new
-		onDelete: "CASCADE",	// Delete a pin's type if pin deleted
+		onDelete: "CASCADE",	// Delete a user's lists if user deleted
     })
     user: Relation<User>;
 
     // Pins
-    @ManyToMany(() => Pin)
+    @ManyToMany(() => Pin, (pin) => pin.lists, {
+        cascade: true,
+    })
     @JoinTable()
     pins: Pin[]
 
