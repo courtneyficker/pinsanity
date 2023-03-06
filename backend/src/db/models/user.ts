@@ -40,6 +40,6 @@ export class User extends BaseEntity {
 	@UpdateDateColumn()
 	updated_at!: string;
 
-	@DeleteDateColumn()
+	@DeleteDateColumn({select: false})
 	deleted_at?: string;
 }
