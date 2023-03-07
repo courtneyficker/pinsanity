@@ -52,13 +52,12 @@
 ## Features to implement
 - A front end would be useful at some point
 
-- Track Collection qtys (IMPORTANT)
-- - Separate table, fPinID, fUserID, qty
-- - How to track variant pins? (see below)
-
-- Every user should have 2 lists auto-generated for them:
+- Every user should have 3 lists auto-generated for them:
+- - "Collection" (public)
 - - "Available for Trade" (public)
 - - "Want to trade for" (public)
+- - These should be deletable if a user wants, but they are standard
+- - Can also be made private
 
 - Variant pins (different dates printed on pin)
 - - Don't want to give them ids in the main list
@@ -72,7 +71,7 @@
 * ~~pinfamous.com~~
 * ~~pingenious.com~~
 * ~~pingenius.com~~ (they want $2.9k for it)
-* ~~infinity.com~~
+* ~~pinfinity.com~~
 * ~~pinfinite.com~~ (they want $9.9k for it)
 * ~~pinferno.com~~
 * ~~**pintensity.com** - GOT IT!~~
