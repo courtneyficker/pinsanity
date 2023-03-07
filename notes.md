@@ -48,35 +48,21 @@
 - GET /lists - List all lists (admin-only)
 - GET /list/:user/:listname - Display a user's list if public
 
-## Features
-- Variant pins (different dates)
+
+## Features to implement
+- A front end would be useful at some point
+
+- Track Collection qtys (IMPORTANT)
+- - Separate table, fPinID, fUserID, qty
+- - How to track variant pins? (see below)
+
+- Every user should have 2 lists auto-generated for them:
+- - "Available for Trade" (public)
+- - "Want to trade for" (public)
+
+- Variant pins (different dates printed on pin)
 - - Don't want to give them ids in the main list
-- - Will need their own table
-
-- 
-
-## Misc notes
-
-### Master list
-There is no "master list" after all, just a ```GET /pins```
-
-
-## List
-This has 3 columns: id, listName, fUserID
-
-
-## ListContents
-This has 3 columns: id, fPinID, fListID
-
-A user can create a list and give it a name, then select pins from the master list to add to their custom list
-
-
-# Routes needed
-## /get
-* pinsanity.com - Display master list
-* pinsanity.com/pinID - Display information about a pin
-* pinsanity.com/username - Display a user's profiles and any public lists they have
-* pinsanity.com/username/listname - Display a list in detail
+- - Will need their own table. 1-M rel with pin
 
 
 
@@ -89,5 +75,6 @@ A user can create a list and give it a name, then select pins from the master li
 * ~~infinity.com~~
 * ~~pinfinite.com~~ (they want $9.9k for it)
 * ~~pinferno.com~~
-* **pintensity.com** - GOT IT!
+* ~~**pintensity.com** - GOT IT!~~
 * pinfluenza.com (available)
+* **pinsanity.app** - Got it...I like the name too much that I am willing to forego the .com
