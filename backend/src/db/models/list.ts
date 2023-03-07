@@ -38,7 +38,7 @@ export class List extends BaseEntity {
 
     // User
     @ManyToOne((type) => User, (user: User) => user.lists, {
-        cascade: true,			// Create type if new
+        cascade: true,			// Create user if new
 		onDelete: "CASCADE",	// Delete a user's lists if user deleted
     })
     user: Relation<User>;
@@ -48,7 +48,7 @@ export class List extends BaseEntity {
         cascade: true,
     })
     @JoinTable()
-    pins: Pin[]
+    pins?: Pin[]
 
 	@CreateDateColumn({select: false})
 	created_at!: string;
