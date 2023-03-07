@@ -1,13 +1,65 @@
-# Database setup
+# Notes to Self
 
-(Using *pinsanity.com* as a potential domain name...might not be available)
+## Database Relations
+### User
+- OneToMany: IP_History
+- OneToMany: List
 
-## Master list
-This contains all pin information...not alterable by users
-/get - pinsanity.com/
+### Pin
+- ManyToMany: List
+- ManyToOne: Category
+- ManyToOne: Company
+- ManyToOne: Type
 
-## User
-Need to learn more about authentication, but will have an id
+### List
+- ManyToMany: Pin
+- ManyToOne: User
+
+### lists_pins_pins
+- Auto-created by ManyToMany relationship
+
+
+## Routes
+
+### Pins
+- GET /pins - Look up all pins
+- GET /pin/:id - Look up a single pin
+- POST /pin - Add a new pin (admin only)
+- ~~DELETE /pin~~ - Should never be needed
+- PUT /pin - Update a pin's info (admin only)
+
+### Users
+- GET /users - List all users (admin only)
+- GET /user/:id - List a single user
+- GET /user/:username - Same, but more user-friendly
+- POST /user - Create a new user
+- DELETE /user/:id - (Soft) delete user
+- PUT /user - Update user info
+
+### Categories/Companies/Types (x)
+- GET /[xs] - List all
+- GET /name - List all PINS with that x
+- POST /[x] - Create a new x (admin only)
+- ~~DELETE /[x]~~ - Should never be needed
+- PUT /[x] - Update info for x
+
+### Lists
+- GET / - List all pins (not a true capital-L List)
+- GET /lists - List all lists (admin-only)
+- GET /list/:user/:listname - Display a user's list if public
+
+## Features
+- Variant pins (different dates)
+- - Don't want to give them ids in the main list
+- - Will need their own table
+
+- 
+
+## Misc notes
+
+### Master list
+There is no "master list" after all, just a ```GET /pins```
+
 
 ## List
 This has 3 columns: id, listName, fUserID
