@@ -31,6 +31,11 @@ export class List extends BaseEntity {
 	})
 	listname!: string;
 
+    @Column({
+        default: true,
+    })
+    isPrivate!: boolean;
+
     // User
     @ManyToOne((type) => User, (user: User) => user.lists, {
         cascade: true,			// Create type if new
