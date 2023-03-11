@@ -3,15 +3,17 @@
 from requests_html import HTMLSession
 #import urllib.request
 import csv
+import json
 
 
-pg = 1
+pg = 14
 base = 'https://pinnydb.com'
 url = f'{base}/?page={pg}'
 s = HTMLSession()
 r = s.get(url)
 
-with open('info.txt', 'a', newline='') as f:
+with open('test.json', 'a', newline='') as f:
+#with open('info.txt', 'a', newline='') as f:
     wr = csv.writer(f)
 
     while (r.status_code == 200 and pg < 15):
@@ -35,7 +37,9 @@ with open('info.txt', 'a', newline='') as f:
             #urllib.request.urlretrieve(f'{base}{purl}', f'{pin_id}.{ext}')
             #print(f'{base}{purl} -- ', f'{pin_id}.{ext}')
             #print(f'{pin_id}: {pname} ({base}{purl})')
-            row = [pin_id, pname, pset, purl, f'{pin_id}.{ext}']
+            #row = [pin_id, pname, pset, purl, f'{pin_id}.{ext}']
+            dictStr = {'id': pin_id, 'name': pname, 'set': pset, 'url': purl, 'filename': f'{pin_id}.{ext}'}
+            row = json.dumps(dictStr, indent=4)
             wr.writerow(row)
 
         pg = pg + 1
