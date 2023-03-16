@@ -14,6 +14,7 @@ def scrape(pid):
     infobox = r.html.find('.detail-box', first=True)
 
     pinfo = {}
+    pinfo['id'] = pid
     pinfo['name'] = infobox.find('h3', first=True).text
     print(f'Looking up info on pin #{pid}...FOUND {pinfo["name"]}')
     pinfo['info'] = infobox.find('p', first=True).text
@@ -30,12 +31,16 @@ def scrape(pid):
                 value = value.text
             else:
                 value = m.text
+            
+            # Remove redundant "Release Date: " from ReleaseDate
+            if key == "ReleaseDate":
+                value = value.split(': ')[-1]
             pinfo[key] = value
     return pinfo
 
 
 with open('pinfo.json', 'a') as f:
-    for id in range(1,1321):
-        json.dump(scrape(id), f)
-        f.write('\n')
+    for id in range(1,1346):
+        json.dump(scrape(id), f, indent=4)
+        #f.write('\n')
 s.close()
