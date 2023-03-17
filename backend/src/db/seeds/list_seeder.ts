@@ -27,7 +27,7 @@ export class ListSeeder extends Seeder {
 		// https://github.com/typeorm/typeorm/issues/1649
 		await app.db.list.delete({});
 
-		for (let i = 1; i < 6; i++) {
+		for (let i = 1; i < 3; i++) {
 			let newList = new List();
 			newList.listname = "List " + i;
 
