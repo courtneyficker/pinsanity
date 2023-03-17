@@ -9,16 +9,18 @@ import { Category } from "./db/models/category";
 import { Company } from "./db/models/company";
 import { Type } from "./db/models/type";
 import { Pin } from "./db/models/pin";
+import { List } from "./db/models/list";
 
-import { 
-	IPostUsersBody,
-	post_users_opts,
-	IPostUsersResponse,
-	IDeleteUsersBody,
-	delete_users_opts,
-	IDeleteUsersResponse,
-} from "./types";
-import { FindOptionsUtils } from "typeorm";
+// import { 
+// 	IPostUsersBody,
+// 	post_users_opts,
+// 	IPostUsersResponse,
+// 	IDeleteUsersBody,
+// 	delete_users_opts,
+// 	IDeleteUsersResponse,
+// } from "./types";
+
+import * as types from "./types";
 
 /*
  * Routes implemented so far:
@@ -62,7 +64,7 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 				reply.header('Content-Type', 'text/html');
 				reply.status(500).send(err);
 			});
-			console.log(indexFile);
+			// console.log(indexFile);
 	
 		reply.header('Content-type', 'text/html');
 		reply.status(200).send(indexFile);
@@ -80,12 +82,49 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		reply.send(users);
 	});
 
+	/**
+	 * User detail (by ID)
+	 * @name get/user/:id
+	 * @function
+	 */
 	app.get("/user/:id", async(req: any, reply) => {
 		let userID = req.params.id;
 		let user = await User.findOneByOrFail({ id: userID });
 
 		await reply.send(JSON.stringify({ user }));
 	});
+
+	/**
+	 * User detail (by username)
+	 * @name get/:username
+	 * @function
+	 */
+	app.get("/:username", async (req:any, reply: FastifyReply) => {
+		let un = req.params.username;
+		let user = await User.findOneByOrFail({ username: un });
+
+		await reply.send(JSON.stringify({ user }));
+	})
+
+	/**
+	 * Get a user's PUBLIC lists
+	 * @name get/:username/lists
+	 * @function
+	 */
+	app.get("/:username/lists", async (req:any, reply: FastifyReply) => {
+		let un = req.params.username;
+
+		const lists = await app.db.list
+			.createQueryBuilder("lists")
+			.innerJoin('lists.user', 'user')
+			.where('user.username = :username', { username: un })
+			.andWhere('lists.isPrivate = false')
+			.getMany();
+
+		await reply.send(JSON.stringify(lists));
+	})
+
+
 
 	/**
 	 * Route allowing creation of a new user.
@@ -96,9 +135,9 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 	 * @returns {IPostUsersResponse} user and IP Address used to create account
 	 */
 	app.post<{
-		Body: IPostUsersBody,
-		Reply: IPostUsersResponse
-	}>("/users", post_users_opts, async (req, reply: FastifyReply) => {
+		Body: types.IPostUsersBody,
+		Reply: types.IPostUsersResponse
+	}>("/users", types.post_users_opts, async (req, reply: FastifyReply) => {
 
 		const {name, email} = req.body;
 
@@ -112,6 +151,25 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		// transactional, transitively saves user to users table as well IFF both succeed
 		await ip.save();
 
+		// Create starter lists: collection, available, wanted
+		const coll = new List();
+		coll.listname = "Collection";
+		coll.user = user;
+		coll.isPrivate = false;
+		await coll.save();
+
+		const av = new List();
+		av.listname = "Available";
+		av.user = user;
+		av.isPrivate = false;
+		await av.save();
+
+		const want = new List();
+		want.listname = "Wanted";
+		want.user = user;
+		want.isPrivate = false;
+		await want.save();
+
 		//manually JSON stringify due to fastify bug with validation
 		// https://github.com/fastify/fastify/issues/4017
 		await reply.send(JSON.stringify({user, ip_address: ip.ip}));
@@ -122,14 +180,14 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 	 * @name delete/user
 	 * @function
 	 * @param {number} userID - ID of user in User table
-	 * @returns {IDeleteUsersResponse} user
+	 * @returns {types.IDeleteUsersResponse} user
 	 */
 	app.delete<{
-		Body: IDeleteUsersBody,
-		Reply: IDeleteUsersResponse,
-	}>("/user", delete_users_opts, async (req, reply: FastifyReply) => {
+		Body: types.IDeleteUsersBody,
+		Reply: types.IDeleteUsersResponse,
+	}>("/user", types.delete_users_opts, async (req, reply: FastifyReply) => {
 		const id = req.body.userID;
-		console.log('Deleting user %d', id);
+
 		try {
 			const myUser = await app.db.user.findOneByOrFail({ id: id });
 
@@ -166,7 +224,6 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 	 */
 	app.get("/category/:catID", async (req: any, reply: FastifyReply) => {
 		const categoryID = req.params.categoryID;
-		console.log("Category ID:", categoryID);
 
 		const pins = await Pin.find({
 			select: {
@@ -177,11 +234,6 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 				updated_at: false,
 			},
 			relations: {
-				// Why doesn't this work???
-				// category: {
-				// 	id: false,
-				// 	category: true,
-				// },
 				category: true,
 				company: false,
 				type: false,
@@ -218,7 +270,6 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 	 */
 	app.get("/company/:comID", async (req: any, reply: FastifyReply) => {
 		const companyID = req.params.comID;
-		console.log("Company ID:", companyID);
 
 		const pins = await Pin.find({
 			select: {
@@ -266,7 +317,6 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 	 */
 	app.get("/type/:typeID", async (req: any, reply: FastifyReply) => {
 		const typeID = req.params.typeID;
-		console.log("Type ID:", typeID);
 
 		const pins = await Pin.find({
 			select: {
@@ -313,7 +363,6 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 	 */
 	app.get("/pin/:pinID", async (req: any, reply: FastifyReply) => {
 		const pinID = req.params.pinID;
-		console.log("Pin ID:", pinID);
 
 		const pin = await Pin.findOne({
 			select: {
@@ -336,4 +385,35 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 
 		reply.send(pin);
 	});
+
+	/**
+	 * Route allowing creation of a new list.
+	 * @name post/list
+	 * @function
+	 * @param {number} id - user's ID
+	 * @param {string} name - Name for the list
+	 * @returns {List} - The list just created
+	 */
+	app.post<{
+		Body: types.IPostListBody,
+		Reply: types.IPostListResponse
+	}>("/list", types.post_list_opts, async (req, reply: FastifyReply) => {
+
+		const {id, name, isPrivate } = req.body;
+
+		let user = await User.findOneByOrFail({ id: id });
+
+		const list = new List();
+		list.listname = name;
+		list.user = user;
+		list.isPrivate = isPrivate;
+
+		await list.save();
+		//manually JSON stringify due to fastify bug with validation
+		// https://github.com/fastify/fastify/issues/4017
+		await reply.send(JSON.stringify(list));
+	});
+
+
+
 }

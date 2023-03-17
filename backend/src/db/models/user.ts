@@ -11,7 +11,8 @@ import {
 	UpdateDateColumn
 } from "typeorm";
 
-import {IPHistory} from "./ip_history";
+import { IPHistory } from "./ip_history";
+import { List } from "./list";
 
 /**
  *  Class representing user table
@@ -29,6 +30,10 @@ export class User extends BaseEntity {
 
 	@Column('text')
 	email!: string;
+
+	// Lists
+	@OneToMany((type) => List, (list: List) => list.user)
+	lists?: Relation<List[]>;
 
 	// IPHistory
 	@OneToMany((type) => IPHistory, (ip: IPHistory) => ip.user)

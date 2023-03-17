@@ -13,6 +13,9 @@ import { Type } from "../models/type";
 import { AddType1677931945695 } from "../migrations/1677931945695-AddType";
 import { Pin } from "../models/pin";
 import { AddPin1677960304685 } from "../migrations/1677960304685-AddPin";
+import { List } from "../models/list";
+import { AddList1678158045551 } from "../migrations/1678158045551-AddList";
+
 
 dotenv.config();
 
@@ -34,6 +37,7 @@ export const AppDataSource = new DataSource({
         Company,
         Type,
         Pin,
+        List,
     ],
     migrations: [
         Initial1677923374030,
@@ -41,6 +45,7 @@ export const AppDataSource = new DataSource({
         AddCompany1677931746347,
         AddType1677931945695,
         AddPin1677960304685,
+        AddList1678158045551,
     ],
     // DANGER DANGER our convenience will nuke production data!
     synchronize: false

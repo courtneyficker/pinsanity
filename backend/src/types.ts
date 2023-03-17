@@ -1,5 +1,6 @@
 import { RouteShorthandOptions } from "fastify";
 import { User } from "./db/models/user";
+import { List } from "./db/models/list";
 
 // *** USERS ***
 export interface IPostUsersBody {
@@ -66,7 +67,7 @@ export type IPostUsersResponse = {
 }
 
 /**
- * Response type for post/users
+ * Response type for delete/users
  */
 export type IDeleteUsersResponse = {
 	/**
@@ -76,3 +77,48 @@ export type IDeleteUsersResponse = {
 }
 
 // ***  ***
+
+// *** LISTS ***
+
+/**
+ * Request interface for post/list
+ */
+export interface IPostListBody {
+	id: number,
+    name: string,
+	isPrivate: boolean,
+}
+
+/**
+ * Response type for post/list
+ */
+export type IPostListResponse = {
+	/**
+	 * List created by request
+	 */
+	list: List,
+}
+
+/**
+ * Route shorthand options for post/list
+ */
+export const post_list_opts: RouteShorthandOptions = {
+    schema: {
+        body: {
+            type: 'object',
+            properties: {
+                id: {type: 'number'},
+                name: {type: 'string'},
+                isPrivate: {type: 'boolean'}
+            }
+        },
+        response: {
+            200: {
+                type: 'object',
+                properties: {
+                    list: {type: 'object'},
+                }
+            }
+        }
+    }
+};
