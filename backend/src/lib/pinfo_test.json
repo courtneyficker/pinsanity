@@ -1,0 +1,41 @@
+{
+    "count": 4,
+    "pins": [
+        {
+            "id": 1,
+            "name": "Merch",
+            "info": "This pin was a reward for spending $90 or more online during the 2012 holiday season. Later, it was a reward for spending $100 or more at PAX East 2013, PAX Aus 2013, and PAX Prime 2013. This pin has a 2012 and 2013 variants.",
+            "Category": "PAX 13",
+            "ReleaseDate": "11/27/12",
+            "Company": "Penny Arcade",
+            "Type": "Purchase Reward"
+        },
+        {
+            "id": 2,
+            "name": "Tycho",
+            "info": "This pin was available as part of a set for sale online. The set was $29.99.",
+            "Category": "Other 13",
+            "ReleaseDate": "3/11/13",
+            "Company": "Penny Arcade",
+            "Type": "Purchase"
+        },
+        {
+            "id": 3,
+            "name": "Gabe",
+            "info": "This pin was available as part of a set for sale online. The set was $29.99.",
+            "Category": "Other 13",
+            "ReleaseDate": "3/11/13",
+            "Company": "Penny Arcade",
+            "Type": "Purchase"
+        },
+        {
+            "id": 4,
+            "name": "FF",
+            "info": "This pin was available as part of a set for sale online. The set was $29.99.",
+            "Category": "Other 13",
+            "ReleaseDate": "3/11/13",
+            "Company": "Penny Arcade",
+            "Type": "Purchase"
+        }
+    ]
+}

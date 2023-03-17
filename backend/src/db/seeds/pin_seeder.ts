@@ -7,6 +7,7 @@ import {Pin} from "../models/pin";
 import { Category } from "../models/category";
 import { Company } from "../models/company";
 import { Type } from "../models/type";
+// import { pins } from "../../lib/pinfo.json";
 
 import {faker} from "@faker-js/faker";
 faker.seed(100);
@@ -26,6 +27,12 @@ export class PinSeeder extends Seeder {
 		app.log.info("Seeding Pins...");
 		// Remove everything in there currently
 		await app.db.pin.delete({});
+        
+        /* This stuff is for later...stick with auto-generated seeding for now
+        // Read pin info from local json file
+        const pinData = pins as any[];
+        console.log(pinData.length);
+        */
 
         const categories = await Category.find();
         const companies = await Company.find();
