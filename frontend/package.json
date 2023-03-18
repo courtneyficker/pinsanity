@@ -8,6 +8,11 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
+  "scriptsComments": {
+    "dev": "Starts the development hot-reload browser",
+    "build": "Builds the app for production.",
+    "preview": "Runs the built app in production mode for testing."
+  },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
