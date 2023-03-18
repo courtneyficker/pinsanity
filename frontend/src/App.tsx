@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import { Header, PinfoBox, PinList } from './Components';
+import { Header } from './Components';
+import { PinList } from './components/PinList';
 import './App.css'
 
 function App() {
   return (
     <div className='App'>
       <Header />
-      {/* <PinList /> */}
-      <PinfoBox />
+      <PinList />
     </div>
   );
 }
