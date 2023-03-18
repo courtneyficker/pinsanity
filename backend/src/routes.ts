@@ -248,6 +248,8 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		reply.send(pins);
 	});
 
+	
+
 
 	// *** COMPANIES *** //
 
@@ -414,6 +416,23 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		await reply.send(JSON.stringify(list));
 	});
 
+	/**
+	 * Route to retrieve the total number of pins in the database
+	 * @name get/pins/count
+	 * @function
+	 * @returns {number} total - Total number of pins
+	 */
+	app.get("/pins/count", async (req: any, reply: FastifyReply) => {
 
+		const pinsQuery = app.db.pin
+			.createQueryBuilder("pinsQuery")
+			.select("COUNT(id)", "total");
+		
+		const result: any = await pinsQuery.getRawOne();
+		
+		console.log("Total pins:", result["total"]);
+
+		reply.send(result["total"]);
+	});
 
 }
