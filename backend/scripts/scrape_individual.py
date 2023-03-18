@@ -41,11 +41,11 @@ def scrape(pid):
         infobox = r.html.find('.detail-box', first=True)
 
         pinfo['id'] = pid
-        if (pinfo['id'] == ""):
+        pinfo['name'] = infobox.find('h3', first=True).text
+        if (pinfo['name'] == ""):
             print("Failed...trying again")
         else:
             success = True
-    pinfo['name'] = infobox.find('h3', first=True).text
     print(f'Looking up info on pin #{pid}...FOUND {pinfo["name"]}')
     pinfo['info'] = infobox.find('p', first=True).text
 
