@@ -23,6 +23,7 @@ export const PinfoBox = () => {
 }
 
 export function getRandomPin(): PinType {
+    // TODO: Figure out why this doesn't work.
     const [total, setTotal] = useState(100);
     const [pinID, setPinID] = useState(1);
 

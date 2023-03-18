@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import { Header } from './Components';
-import { PinList } from './components/PinList';
-import './App.css'
+import { Header, Footer } from './components/Components';
+import { Main } from './components/Main';
 
 function App() {
   return (
     <div className='App'>
       <Header />
-      <PinList />
+      <Main />
+      <Footer />
     </div>
   );
 }
