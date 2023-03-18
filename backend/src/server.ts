@@ -1,7 +1,6 @@
 /** @module Server */
 
 // This will let us use our basic middlewares now, then transition to hooks later
-import fastifyMiddie from "@fastify/middie";
 import staticFiles from "@fastify/static";
 import Fastify, {FastifyInstance} from "fastify";
 import path from "path";
@@ -9,6 +8,7 @@ import {getDirName} from "./lib/helpers";
 import logger from "./lib/logger";
 import {pinsanity_routes} from "./routes";
 import DbPlugin from "./plugins/database";
+import {oauthPlugin} from "./plugins/auth";
 
 
 
@@ -27,14 +27,14 @@ export async function buildApp(useLogging: boolean) {
 		: Fastify({logger: false});
 
 	try {
-		// add express-like 'app.use' middleware support
-		await app.register(fastifyMiddie);
-
 		// add static file handling
 		await app.register(staticFiles, {
 			root: path.join(getDirName(import.meta), "../public"),
 			prefix: "/public/",
 		});
+
+		app.log.info("Registering authentication");
+		await app.register(oauthPlugin);
 
 		// Adds all of our Router's routes to the app
 		app.log.info("Registering routes");

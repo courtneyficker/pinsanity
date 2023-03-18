@@ -37,10 +37,6 @@ import * as types from "./types";
  */
 export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 
-	// Middleware
-	// TODO: Refactor this in favor of fastify-cors
-	app.use(cors());
-
 	/**
 	 * Route replying to /test path for test-testing
 	 * @name get/test
