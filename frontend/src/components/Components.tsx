@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import LoginButton from "../Login";
+import LogoutButton from "../Logout";
 
 export const Header = () => {
     return (
@@ -8,6 +10,8 @@ export const Header = () => {
             <ul>
                 <li id="my_lists">My Lists</li>
             </ul>
+            <LoginButton />
+            <LogoutButton />
         </nav>
     );
 }

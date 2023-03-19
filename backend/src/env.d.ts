@@ -15,6 +15,7 @@ interface ImportMetaEnv {
 	readonly VITE_DB_NAME: string;
 	readonly VITE_AUTH_DOMAIN: string;
 	readonly VITE_AUTH_SECRET: string;
+	readonly VITE_AUTH_CLIENT: string;
 }
 
 interface ImportMeta {
