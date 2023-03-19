@@ -70,6 +70,12 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		reply.status(200).send(indexFile);
 	});
 
+	// *** AUTH *** //
+
+	// app.post("/login", async (req: any, reply: any) => {
+
+	// });
+
 	// *** USERS *** //
 
 	/**
@@ -77,7 +83,7 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 	 * @name get/users
 	 * @function
 	 */
-	app.get("/users", async (req, reply) => {
+	app.get("/users", {onRequest: [app.auth] }, async (req, reply) => {
 		let users = await app.db.user.find();
 		reply.send(users);
 	});

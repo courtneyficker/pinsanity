@@ -27,3 +27,14 @@
 > I have spent way too much time obsessing over the name. Nothing sits better with me than **Pinsanity**, so even though I can't have the .com, I went ahead and registered the ".app" domain. I'm not going to bother changing the name in the project until later, in case I change my mind again.
 
 > I have the backend working, and by that I mean docker and `pnpm dev` will build and run without errors. There are a lot of tables to add, and considering the confusion I had with building queries in typeorm on assignment 2, I am a little worried that the queries are going to be even more complicated.
+
+## 19 March 2023
+
+> Oops, I have been neglecting this. In the time since the last entry, I have got my backend very much done, not done with an asterisk*. Except, there is one asterisk: I think the seeding process should change so that the "reference" tables (pins, company, category, etc.) are not seeded with fake info but with the actual stuff.
+
+> I did refine the script somewhat and got a better json file to store the info, but it is too much of a timesink right now. It will be one of the first things I work on after the term is over.
+
+> Secondly, I got my frontend up and running. React is not as scary as I thought; still complicated though. Again spent way too much time on CSS. I will have to just let the site be ugly for grading purposes.
+
+> Auth has been killing me. For some reason it's not getting through my thick skill no matter how many times I watch the class meetings. I did manage to get the backend set up, I think, so that a route with the "auth" decorator will return an unauthorized error. Now I just need to work out the frontend side, and where to get the token.
+
