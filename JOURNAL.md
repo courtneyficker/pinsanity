@@ -38,3 +38,8 @@
 
 > Auth has been killing me. For some reason it's not getting through my thick skill no matter how many times I watch the class meetings. I did manage to get the backend set up, I think, so that a route with the "auth" decorator will return an unauthorized error. Now I just need to work out the frontend side, and where to get the token.
 
+## 20 March 2023
+
+> I just can't get auth to work. I have to make the painful choice to leave it as is and get on to file storage and so forth and hope for some partial credit. So frustrating.
+
+> 

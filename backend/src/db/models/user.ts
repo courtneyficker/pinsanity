@@ -1,50 +1,39 @@
 /** @module Models/User */
-import {
-	BaseEntity,
-	Column,
-	CreateDateColumn,
-	DeleteDateColumn,
-	Entity,
-	OneToMany,
-	PrimaryGeneratedColumn,
-	Relation,
-	UpdateDateColumn
-} from "typeorm";
-
+import TypeORM from "typeorm";
 import { IPHistory } from "./ip_history";
 import { List } from "./list";
 
 /**
  *  Class representing user table
  */
-@Entity({name: "users"})
-export class User extends BaseEntity {
-	@PrimaryGeneratedColumn()
+@TypeORM.Entity({name: "users"})
+export class User extends TypeORM.BaseEntity {
+	@TypeORM.PrimaryGeneratedColumn()
 	id!: number;
 
-	@Column({
+	@TypeORM.Column({
 		length: 100,
 		type: "varchar"
 	})
 	username!: string;
 
-	@Column('text')
+	@TypeORM.Column('text')
 	email!: string;
 
 	// Lists
-	@OneToMany((type) => List, (list: List) => list.user)
-	lists?: Relation<List[]>;
+	@TypeORM.OneToMany((type) => List, (list: List) => list.user)
+	lists?: TypeORM.Relation<List[]>;
 
 	// IPHistory
-	@OneToMany((type) => IPHistory, (ip: IPHistory) => ip.user)
-	ips!: Relation<IPHistory[]>;
+	@TypeORM.OneToMany((type) => IPHistory, (ip: IPHistory) => ip.user)
+	ips!: TypeORM.Relation<IPHistory[]>;
 
-	@CreateDateColumn()
+	@TypeORM.CreateDateColumn()
 	created_at!: string;
 
-	@UpdateDateColumn()
+	@TypeORM.UpdateDateColumn()
 	updated_at!: string;
 
-	@DeleteDateColumn({select: false})
+	@TypeORM.DeleteDateColumn({select: false})
 	deleted_at?: string;
 }

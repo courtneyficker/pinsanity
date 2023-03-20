@@ -449,4 +449,7 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		reply.send(result["total"]);
 	});
 
+
+	// *** MINIO ***
+	
 }
