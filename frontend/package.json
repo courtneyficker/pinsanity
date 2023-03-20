@@ -14,6 +14,7 @@
     "preview": "Runs the built app in production mode for testing."
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.0.1",
     "axios": "^1.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

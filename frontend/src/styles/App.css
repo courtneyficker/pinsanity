@@ -34,6 +34,10 @@
   overflow: hidden;
 }
 
+nav > .btnAuth {
+  border: 1px solid rebeccapurple;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

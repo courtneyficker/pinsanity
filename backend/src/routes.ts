@@ -1,5 +1,4 @@
 /** @module Routes */
-import cors from "cors";
 import fs from "fs/promises";
 import path from "path";
 import { FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions } from "fastify";
@@ -10,6 +9,7 @@ import { Company } from "./db/models/company";
 import { Type } from "./db/models/type";
 import { Pin } from "./db/models/pin";
 import { List } from "./db/models/list";
+import { ImportMeta } from "env.d";
 
 // import { 
 // 	IPostUsersBody,
@@ -36,10 +36,6 @@ import * as types from "./types";
  * @param {FastifyInstance} app our main Fastify app instance
  */
 export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
-
-	// Middleware
-	// TODO: Refactor this in favor of fastify-cors
-	app.use(cors());
 
 	/**
 	 * Route replying to /test path for test-testing
@@ -70,6 +66,24 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		reply.status(200).send(indexFile);
 	});
 
+	// *** AUTH *** //
+
+	/**
+	 * Route to retrieve an authentication token
+	 * @name get/verify
+	 * @function
+	 */
+	app.get("/verify", async (request: FastifyRequest, reply: FastifyReply) =>{
+		const domain = import.meta.env.VITE_AUTH_DOMAIN;
+		const secret = import.meta.env.VITE_AUTH_SECRET;
+		const audience = import.meta.env.VITE_AUTH_AUDIENCE;
+		const grant = "client_credentials";
+
+
+
+		reply.send(request.user);
+	})
+
 	// *** USERS *** //
 
 	/**
@@ -77,7 +91,7 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 	 * @name get/users
 	 * @function
 	 */
-	app.get("/users", async (req, reply) => {
+	app.get("/users", {onRequest: [app.auth] }, async (req, reply) => {
 		let users = await app.db.user.find();
 		reply.send(users);
 	});

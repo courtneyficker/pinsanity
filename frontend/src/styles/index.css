@@ -47,10 +47,21 @@ body {
   position: absolute;
   display: flex;
   align-items: center;
+  justify-content: left;
   top: 0; 
   height: 50px;
   width: 100%;
   background-color: black;
+  border: 1px solid yellow;
+}
+
+#nav .loginStuff {
+  border: 1px solid red;
+}
+
+#nav .userControls {
+  border: 1px solid green;
+  
 }
 
 #nav > .title {
@@ -75,7 +86,6 @@ footer {
   position: absolute;
   display: flex;
   align-items: center;
-  align-content: space-around;
   height: 50px;
   width: 100%;
   background-color: black;

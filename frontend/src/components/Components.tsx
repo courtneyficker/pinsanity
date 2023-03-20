@@ -1,13 +1,28 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import LoginButton from "./Login";
+import LogoutButton from "./Logout";
+import Profile from "./Profile";
+import { useAuth0, Auth0Context } from "@auth0/auth0-react";
 
 export const Header = () => {
+
+    const { user, isAuthenticated, isLoading } = useAuth0();
+
     return (
         <nav id="nav">
             <a className="title" href="index.html">Pinsanity!</a>
-            <ul>
-                <li id="my_lists">My Lists</li>
-            </ul>
+            <div className="userControls">
+                <ul>
+                    <li id="my_lists">My Lists</li>
+                </ul>
+            </div>
+            <div className="loginStuff">
+                { isAuthenticated ? (
+                    <LogoutButton />
+                ) : (
+                    <LoginButton />
+                )}
+                <Profile />
+            </div>
         </nav>
     );
 }

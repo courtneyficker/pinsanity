@@ -1,7 +1,5 @@
 /** @module Server */
-
-// This will let us use our basic middlewares now, then transition to hooks later
-import fastifyMiddie from "@fastify/middie";
+import cors from "@fastify/cors";
 import staticFiles from "@fastify/static";
 import Fastify, {FastifyInstance} from "fastify";
 import path from "path";
@@ -9,6 +7,7 @@ import {getDirName} from "./lib/helpers";
 import logger from "./lib/logger";
 import {pinsanity_routes} from "./routes";
 import DbPlugin from "./plugins/database";
+import { AuthPlugin } from "./plugins/auth";
 
 
 
@@ -27,14 +26,40 @@ export async function buildApp(useLogging: boolean) {
 		: Fastify({logger: false});
 
 	try {
-		// add express-like 'app.use' middleware support
-		await app.register(fastifyMiddie);
+		
+		await app.register(cors, {
+			origin: (origin, cb) => {
+				cb(null, true);
+			}
+		});
+
+		// Needed? Get possible undefined error for origin in "const hostname" line
+		// await app.register(cors, {
+		// 	origin: (origin, cb) => {
+		// 		// If we're in dev mode, no CORS necessary, let *everything* pass
+		// 		if (import.meta.env.DEV) {
+		// 			cb(null, true);
+		// 			return;  }
+		// 		const hostname = new URL(origin).hostname;
+		// 		// Otherwise check to see if hostnames match, or are local connections and allow those too
+		// 		if (hostname === "localhost" || hostname === '127.0.0.1' || hostname === import.meta.env.VITE_IP_ADDR) {
+		// 			//  Request from localhost will pass
+		// 			cb(null, true);
+		// 			return;  }
+		// 		// Generate an error on other origins, disabling access
+		// 		cb(new Error("Not allowed"), false);
+		// 	}
+		// });
 
 		// add static file handling
 		await app.register(staticFiles, {
 			root: path.join(getDirName(import.meta), "../public"),
 			prefix: "/public/",
 		});
+
+		// Add authentication plugin
+		app.log.info("Registering authentication");
+		await app.register(AuthPlugin);
 
 		// Adds all of our Router's routes to the app
 		app.log.info("Registering routes");
