@@ -8,14 +8,13 @@ import './styles/pinfobox.css'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Auth0Provider
-      domain="dev-3bjmrn5j71aoqrhy.us.auth0.com"
-      //clientId={import.meta.env.VITE_AUTH_CLIENT}
-      clientId="W03dWCj9CvwnamvjgAiAGCtWbjfoqr5r"
+      domain={import.meta.env.VITE_AUTH_DOMAIN}
+      clientId={import.meta.env.VITE_AUTH_CLIENT}
       authorizationParams={{
-        redirect_uri: window.location.origin
+        redirect_uri: "http://localhost:5173"
       }}>
       <App />
     </Auth0Provider>,
-    {/* document.getElementById("root"); */}
+    document.getElementById("root");
   </React.StrictMode>,
 )
