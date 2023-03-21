@@ -15,8 +15,8 @@ declare module 'fastify' {
 
 export const AuthPlugin = fp(async function(fastify: FastifyInstance, opts: FastifyPluginOptions) {
 	fastify.register(import('fastify-auth0-verify'), {
-		domain: import.meta.env["VITE_AUTH_DOMAIN"],
-  		secret: import.meta.env["VITE_AUTH_SECRET"],
+		domain: import.meta.env.VITE_AUTH_DOMAIN,
+  		secret: import.meta.env.VITE_AUTH_SECRET,
 	});
 
 	fastify.decorate("auth", async function(request: FastifyRequest, reply: FastifyReply) {

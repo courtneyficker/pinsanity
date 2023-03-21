@@ -1,43 +1,32 @@
 /** @module Models/Company */
-import {
-	BaseEntity,
-	Column,
-	CreateDateColumn,
-	DeleteDateColumn,
-	Entity,
-	ManyToOne,
-	OneToMany,
-	PrimaryGeneratedColumn,
-	Relation,
-	UpdateDateColumn
-} from "typeorm";
 
+import TypeORM from "typeorm";
 import {Pin} from "./pin";
 
 /**
  *  Class representing Company table
  */
-@Entity({name: "companies"})
-export class Company extends BaseEntity {
-	@PrimaryGeneratedColumn()
+@TypeORM.Entity({name: "companies"})
+export class Company extends TypeORM.BaseEntity {
+	@TypeORM.PrimaryGeneratedColumn()
 	id!: number;
 
-	@Column({
+	@TypeORM.Column({
 		length: 50,
 		type: "varchar"
 	})
 	company!: string;
 
 	// Pins
-	@OneToMany((type) => Pin, (pin: Pin) => pin.company)
-	pins?: Relation<Pin[]>;
+	@TypeORM.OneToMany((type) => Pin, (pin: Pin) => pin.company)
+	pins?: TypeORM.Relation<Pin[]>;
 
-	@CreateDateColumn({select: false})
+	@TypeORM.CreateDateColumn({select: false})
 	created_at!: string;
 
-	@UpdateDateColumn({select: false})
+	@TypeORM.UpdateDateColumn({select: false})
 	updated_at!: string;
 
-	@DeleteDateColumn({select: false})
+	@TypeORM.DeleteDateColumn({select: false})
 	deleted_at?: string;
 }

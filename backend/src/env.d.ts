@@ -16,6 +16,10 @@ interface ImportMetaEnv {
 	readonly VITE_AUTH_DOMAIN: string;
 	readonly VITE_AUTH_SECRET: string;
 	readonly VITE_AUTH_CLIENT: string;
+	readonly VITE_MINIO_HOST: string;
+	readonly VITE_MINIO_PORT: number;
+	readonly VITE_MINIO_USER: string;
+	readonly VITE_MINIO_PASS: string;
 }
 
 interface ImportMeta {
