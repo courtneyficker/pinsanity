@@ -23,7 +23,7 @@ ENV VITE_IP_ADDR=0.0.0.0
 ENV VITE_PORT=8080
 ENV VITE_LOGS_DIR=logs/
 ENV VITE_DB_HOST=postgres
-ENV VITE_DB_PORT=5433
+ENV VITE_DB_PORT=5432
 ENV VITE_DB_USER=pinsanity
 ENV VITE_DB_PASS=pinsanity
 ENV VITE_DB_NAME=pinsanity
@@ -37,12 +37,13 @@ ENV VITE_MINIO_PASS=minioPass
 COPY --chown=nodejs:nodejs package*.json ./
 
 # install dependencies here, for better reuse of layers
-RUN pnpm install
+#RUN pnpm install
 
 # copy all sources in the container (exclusions in .dockerignore file)
 COPY --chown=nodejs:nodejs . .
 
 # build/pack binaries from sources
+RUN pnpm install
 RUN pnpm build
 
 # exposed port

@@ -6,7 +6,7 @@ services:
     image: postgres:15-alpine
     restart: always
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - db:/var/lib/postgresql/data
     environment:
@@ -27,7 +27,7 @@ services:
      - VITE_IP_ADDR=0.0.0.0
      - VITE_PORT=8080
      - VITE_LOGS_DIR=logs/
-     - VITE_DB_PORT=5433
+     - VITE_DB_PORT=5432
      - VITE_DB_USER=pinsanity
      - VITE_DB_PASS=pinsanity
      - VITE_DB_NAME=pinsanity
@@ -46,8 +46,8 @@ services:
     build: ./frontend/
     restart: always
     ports:
-      #- "88:80" # We need to map here for convenience, so we don't conflict with a potential possible local server
-      - "5000:80"
+      - "88:80" # We need to map here for convenience, so we don't conflict with a potential possible local server
+      #- "5000:80"
     environment:
       - VITE_BACKEND_IP=backend
       - VITE_BACKEND_PORT=8080
