@@ -52,7 +52,10 @@ export class PinSeeder extends Seeder {
         // if (dbCountObj && dbCountObj.hasOwnProperty("total")){
         //     dbCount = dbCountObj.total;
         // }
-        const fileCount = count;
+
+        // Cap it at 100 for our sanity's sake
+        const fileCount = (count > 100) ? 100 : count;
+
         // console.log(`in DB: ${JSON.stringify(dbCount)} - in file: ${fileCount}`);
         //console.log(`in DB: ${dbCount} - in file: ${fileCount}`);
 
