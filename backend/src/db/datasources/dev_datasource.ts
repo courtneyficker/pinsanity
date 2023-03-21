@@ -15,6 +15,7 @@ import { Pin } from "../models/pin";
 import { AddPin1677960304685 } from "../migrations/1677960304685-AddPin";
 import { List } from "../models/list";
 import { AddList1678158045551 } from "../migrations/1678158045551-AddList";
+import { addImageToPins1679402051033 } from "../migrations/1679402051033-addImageToPins";
 
 
 dotenv.config();
@@ -46,6 +47,7 @@ export const AppDataSource = new DataSource({
         AddType1677931945695,
         AddPin1677960304685,
         AddList1678158045551,
+        addImageToPins1679402051033,
     ],
     // DANGER DANGER our convenience will nuke production data!
     synchronize: false

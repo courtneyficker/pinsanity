@@ -1,16 +1,4 @@
 /** @module Models/Category */
-// import {
-// 	BaseEntity,
-// 	Column,
-// 	CreateDateColumn,
-// 	DeleteDateColumn,
-// 	Entity,
-// 	ManyToOne,
-// 	OneToMany,
-// 	PrimaryGeneratedColumn,
-// 	Relation,
-// 	UpdateDateColumn
-// } from "typeorm";
 
 import TypeORM from "typeorm";
 import {Pin} from "./pin";

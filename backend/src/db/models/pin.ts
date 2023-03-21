@@ -25,6 +25,10 @@ export class Pin extends TypeORM.BaseEntity {
     @TypeORM.Column()
     releaseDate?: string;
 
+	// imageFilename - Should be [id].png
+	@TypeORM.Column()
+	imageFilename?: string;
+
 	// Category
     @TypeORM.ManyToOne((type) => Category, (category: Category) => category.pins, {
         cascade: true,			// Create category if new

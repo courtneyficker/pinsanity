@@ -19,9 +19,9 @@ const SeederOptions: any = {
 	seeds: [
 		UserSeed,
 		IPHistorySeed,
-		CategorySeed,
-		CompanySeed,
-		TypeSeed,
+		// CategorySeed,
+		// CompanySeed,
+		// TypeSeed,
 		PinSeed,
 		ListSeed,
 	]

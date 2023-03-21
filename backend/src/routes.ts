@@ -1,6 +1,4 @@
 /** @module Routes */
-import fs from "fs/promises";
-import path from "path";
 import { FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions } from "fastify";
 import { User } from "./db/models/user";
 import { IPHistory } from "./db/models/ip_history";
@@ -9,27 +7,8 @@ import { Company } from "./db/models/company";
 import { Type } from "./db/models/type";
 import { Pin } from "./db/models/pin";
 import { List } from "./db/models/list";
-import { ImportMeta } from "env.d";
-
-// import { 
-// 	IPostUsersBody,
-// 	post_users_opts,
-// 	IPostUsersResponse,
-// 	IDeleteUsersBody,
-// 	delete_users_opts,
-// 	IDeleteUsersResponse,
-// } from "./types";
 
 import * as types from "./types";
-
-/*
- * Routes implemented so far:
- * /			:	GET /
- * users		:	GET /users, GET /user:id, DELETE /user, POST /user
- * categories	:	GET /categories, GET /category:id
- * companies	:	GET /companies
- * types		:	GET /types
- */
 
 /**
  * App plugin where we construct our routes
@@ -81,7 +60,7 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 	 * @name get/user/:id
 	 * @function
 	 */
-	app.get("/user/:id", async(req: any, reply) => {
+	app.get("/userid/:id", async(req: any, reply) => {
 		let userID = req.params.id;
 		let user = await User.findOneByOrFail({ id: userID });
 
@@ -93,7 +72,7 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 	 * @name get/:username
 	 * @function
 	 */
-	app.get("/:username", async (req:any, reply: FastifyReply) => {
+	app.get("/user/:username", async (req:any, reply: FastifyReply) => {
 		let un = req.params.username;
 		let user = await User.findOneByOrFail({ username: un });
 

@@ -37,7 +37,7 @@ export class ListSeeder extends Seeder {
 
             // Add a couple of pins
             let pins = await Pin.find();
-            newList.pins = [pins[i+10], pins[i+11]];
+            newList.pins = [pins[i], pins[i+1]];
 
 			await newList.save();
 			app.log.info("Seeded List " + i);

@@ -44,4 +44,25 @@
 
 > I have tried to follow the class videos as much as possible, but I can't get backend or frontend to work in docker. When I `docker compose up backend` it tells me I need to provide domain or secret in relation to the auth0-verify plugin. But I am doing that, and with pnpm dev, auth works.
 
-> On frontend, it gives me an error with nginx
+## 21 March 2023
+
+> It turns out that issue was intertwined with auth. Thanks to some god-tier debugging assistance, it got sorted out. Now, not only does `docker compose up` work, I also tried it on a VM and it worked there.
+
+> Little bugs are now bubbling up, but I've been able to fix them.
+
+> First, I noticed that I got an "empty response" from the server when trying to access the page now. Brief backstory, a couple of classmates and I had an issue with the "88:80" frontend port thing in `docker-compose.yaml`. The solution ended up being to choose a port >= 1024, which is what the error basically said. The only unknown is why it was doing that at all and seemingly fine for doggr. Oh well.
+
+> First I noted that the port I chose (1138) *was* getting noticed--it was an "empty response", not a "connection refused". So it was at least partially acknowledging my port. I knew it was related to our web server, so I looked and found the culprit in `nginx.conf`. The port was changed to 5173 based on something that had been said in class...I forget what now. I changed it back to 80, since, after all, we are using 1138 as a stand-in for 80, and that fixed it.
+
+> Another really unfortunate bug was that some of the work I was doing while waiting for docker container builds to finish seeped into the stuff that got pushed. I think I made a change to a route so I included routes.ts in the push, but I also made OTHER changes to routes.ts that should not have been pushed.
+
+> The main issue was that I started adding a new field to the Pins table, which will hold the filename of its image. This was going to be a "nice-to-have" thing, but the fact that now nothing appeared on the homepage (which I could now see) upgraded it a "must-have".
+
+> I needed a whole new seeder, since I needed to not only account for this new field, but also I had always wanted to go off *actual* information I have stored in a json file and not use fake info anymore. So I was able to do that after adding a `resolveJsonModule` into `tsconfig.migration.json`, but also since I had that info I was now able to seed company, category, and type from within the pin seeder. So those other seeders are now commented out.
+
+> It was honestly a nice refresher to go back to the whole migration cycle we did earlier in the term. It was encouraging that this process went very smoothly. I made the change to the model, whipped up a new Pin seeder, which actually made the Category, Company, and Type seeders obsolete. I was pretty pleased with the fact that it worked right away (aside from one minor off-by-one bug). Still more I'd like to add to the seeder (like only seeding what is not already there instead of deleting every time), but it works for now.
+
+> There's still the following to do:
+> * REQUIRED: Seed files into minio.
+> * OPTIONAL: Would love to redo the CSS from scratch. I should have done this from the get-go, and now it's a mess. I love CSS too; that's supposed to be the fun part. This is not a requirement though...an ugly website is still a website.
+> * REQUIRED: Make the video and submit
