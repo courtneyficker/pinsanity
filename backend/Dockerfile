@@ -44,6 +44,10 @@ COPY --chown=nodejs:nodejs . .
 
 # build/pack binaries from sources
 RUN pnpm install
+
+RUN pnpm migration:run
+RUN pnpm seed
+
 RUN pnpm build
 
 # exposed port
