@@ -35,6 +35,9 @@ services:
      - VITE_MINIO_PORT=9000
      - VITE_MINIO_USER=minioUser
      - VITE_MINIO_PASS=minioPass
+     - VITE_AUTH_DOMAIN=dev-3bjmrn5j71aoqrhy.us.auth0.com
+     - VITE_AUTH_CLIENT=W03dWCj9CvwnamvjgAiAGCtWbjfoqr5r
+     - VITE_AUTH_SECRET=V3kS8N0dbs4CrwfQmnjUrim0VmAKOJ0w68pG8KliByJuBGeE1lnos78dGah4tW4L
     depends_on:
      - postgres
   
