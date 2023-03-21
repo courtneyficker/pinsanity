@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       domain={import.meta.env.VITE_AUTH_DOMAIN}
       clientId={import.meta.env.VITE_AUTH_CLIENT}
       authorizationParams={{
-        redirect_uri: "http://localhost:5173"
+        redirect_uri: "http://localhost:1138"
       }}>
       <App />
     </Auth0Provider>,
