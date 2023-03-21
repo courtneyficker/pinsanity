@@ -46,26 +46,6 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 		reply.send("GET Test");
 	});
 
-	/**
-	 * Main home page
-	 * @name get/
-	 * @function
-	 */
-	app.get("/", async (req, reply) => {
-
-		const indexFile = await fs.readFile(path.resolve(__dirname, '..', 'public', 'index.html'))
-			.catch(err => {
-				console.error(err);
-				//send error result - 500!
-				reply.header('Content-Type', 'text/html');
-				reply.status(500).send(err);
-			});
-			// console.log(indexFile);
-	
-		reply.header('Content-type', 'text/html');
-		reply.status(200).send(indexFile);
-	});
-
 	// *** AUTH *** //
 
 	/**
@@ -451,5 +431,5 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 
 
 	// *** MINIO ***
-	
+
 }
