@@ -3,17 +3,18 @@ import {Client} from "minio";
 
 export const minioClient = new Client({
 	endPoint: "minio",
-	port: import.meta.env.VITE_MINIO_PORT,
+	//port: import.meta.env.VITE_MINIO_PORT,
+	port: 9000,
 	useSSL: false,
 	accessKey: import.meta.env.VITE_MINIO_USER,
 	secretKey: import.meta.env.VITE_MINIO_PASS,
 });
 
 
-export const UploadFileToMinio = async (file: any): Promise<boolean> => {
+export const UploadFileToMinio = async (filename: string, file: any): Promise<boolean> => {
 	let success = false;
 	try {
-		await minioClient.putObject("pinsanity", file.filename, file.file, (error: any, etag: any) => {
+		await minioClient.putObject("pinsanity", filename, file, (error: any, etag: any) => {
 			if (error) {
 				console.log("Minio client putObject failed: ", error);
 
@@ -24,7 +25,7 @@ export const UploadFileToMinio = async (file: any): Promise<boolean> => {
 			}
 		});
 	} catch (err) {
-		console.log("In upload file to minio with err: ", err);
+		console.log("InUploadFileToMinio with err: ", err);
 		success = false;
 	}
 
