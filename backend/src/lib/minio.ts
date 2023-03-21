@@ -31,3 +31,24 @@ export const UploadFileToMinio = async (file: any): Promise<boolean> => {
 	return success;
 
 };
+
+export const GetFileFromMinio = async (filename: string): Promise<boolean> => {
+	let success = false;
+	try {
+        await minioClient.getObject("pinsanity", filename, (error: any, etag: any) => {
+			if (error) {
+				console.log("Minio client getObject failed: ", error);
+
+				success=false;
+			} else {
+				// console.log("Succesfully retrieved file");
+				success=true;
+			}
+		});
+	} catch (err) {
+		console.log("In retrieve file from minio with err: ", err);
+		success = false;
+	}
+
+	return success;
+};

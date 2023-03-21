@@ -42,4 +42,6 @@
 
 > I just can't get auth to work. I have to make the painful choice to leave it as is and get on to file storage and so forth and hope for some partial credit. So frustrating.
 
-> 
+> I have tried to follow the class videos as much as possible, but I can't get backend or frontend to work in docker. When I `docker compose up backend` it tells me I need to provide domain or secret in relation to the auth0-verify plugin. But I am doing that, and with pnpm dev, auth works.
+
+> On frontend, it gives me an error with nginx

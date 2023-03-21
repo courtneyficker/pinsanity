@@ -8,6 +8,7 @@ import logger from "./lib/logger";
 import {pinsanity_routes} from "./routes";
 import DbPlugin from "./plugins/database";
 import { AuthPlugin } from "./plugins/auth";
+import multipart from "@fastify/multipart";
 
 
 
@@ -56,6 +57,9 @@ export async function buildApp(useLogging: boolean) {
 			root: path.join(getDirName(import.meta), "../public"),
 			prefix: "/public/",
 		});
+
+		// Add file upload support
+		await app.register(multipart);
 
 		// Add authentication plugin
 		app.log.info("Registering authentication");

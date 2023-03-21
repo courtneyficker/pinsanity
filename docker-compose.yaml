@@ -2,7 +2,7 @@ version: '3'
 services:
 
   postgres:
-    container_name: pinDB
+    container_name: postgres
     image: postgres:15-alpine
     restart: always
     ports:
@@ -37,19 +37,21 @@ services:
      - VITE_MINIO_PASS=minioPass
     depends_on:
      - postgres
+  
   frontend:
     container_name: frontend
     build: ./frontend/
     restart: always
     ports:
-      - "88:80" # We need to map here for convenience, so we don't conflict with a potential possible local server
+      #- "88:80" # We need to map here for convenience, so we don't conflict with a potential possible local server
+      - "5000:80"
     environment:
       - VITE_BACKEND_IP=backend
       - VITE_BACKEND_PORT=8080
 
   minio:
     container_name: minio
-    image: docker.io/minio/minio:latest
+    image: docker.io/bitnami/minio:latest
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -61,6 +63,7 @@ services:
       - MINIO_SERVER_SECRET_KEY=minioPass
     volumes:
       - minio_data:/data
+
 volumes:
   minio_data:
     driver: local
