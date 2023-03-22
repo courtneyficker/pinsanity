@@ -33,6 +33,22 @@ export const UploadFileToMinio = async (filename: string, file: any): Promise<bo
 
 };
 
+export const GetImages = async (): Promise<unknown> => {
+	//let imageURLs: String[] = [];
+
+	const imageURLs = await new Promise((resolve, reject) => {
+		const listofURLs: string[] = [];
+		const filenames = minioClient.listObjectsV2('pinsanity');
+		filenames.on('data', obj => listofURLs.push('/pinsanity/' + obj.name));
+		filenames.on('error', reject);
+		filenames.on('end', () => {
+			resolve(listofURLs);
+		});
+	});
+
+	return await imageURLs;
+}
+
 export const GetFileFromMinio = async (filename: string): Promise<boolean> => {
 	let success = false;
 	try {

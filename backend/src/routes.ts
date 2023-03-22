@@ -7,6 +7,7 @@ import { Company } from "./db/models/company";
 import { Type } from "./db/models/type";
 import { Pin } from "./db/models/pin";
 import { List } from "./db/models/list";
+import { GetImages } from "./lib/minio"
 
 import * as types from "./types";
 
@@ -411,4 +412,19 @@ export async function pinsanity_routes(app: FastifyInstance): Promise<void> {
 
 	// *** MINIO ***
 
+	/**
+	 * Route to retrieve image URLs for all pins
+	 * @name get/images
+	 * @function
+	 * @returns {String []} All the URLs
+	 */
+	app.get("/images", async (req: any, reply: FastifyReply) => {
+
+		const imageURLs = await GetImages();
+		
+		
+		//console.log("Retrived", imageURLs.length(), "image URLs");
+
+		reply.send({imageURLs});
+	});
 }

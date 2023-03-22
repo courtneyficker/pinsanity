@@ -50,9 +50,9 @@
 
 > Little bugs are now bubbling up, but I've been able to fix them.
 
-> First, I noticed that I got an "empty response" from the server when trying to access the page now. Brief backstory, a couple of classmates and I had an issue with the "88:80" frontend port thing in `docker-compose.yaml`. The solution ended up being to choose a port >= 1024, which is what the error basically said. The only unknown is why it was doing that at all and seemingly fine for doggr. Oh well.
+> First, I noticed that I got an "empty reply from server" when trying to access the page now. Brief backstory, a couple of classmates and I had an issue with the "88:80" frontend port thing in `docker-compose.yaml`. The solution ended up being to choose a port >= 1024, which is what the error basically said. The only unknown is why it was doing that at all and seemingly fine for doggr. Oh well.
 
-> First I noted that the port I chose (1138) *was* getting noticed--it was an "empty response", not a "connection refused". So it was at least partially acknowledging my port. I knew it was related to our web server, so I looked and found the culprit in `nginx.conf`. The port was changed to 5173 based on something that had been said in class...I forget what now. I changed it back to 80, since, after all, we are using 1138 as a stand-in for 80, and that fixed it.
+> First I noted that the port I chose (1138) *was* getting noticed--it was an "empty reply", not a "connection refused". So it was at least partially acknowledging my port. I knew it was related to our web server, so I looked and found the culprit in `nginx.conf`. The port was changed to 5173 based on something that had been said in class...I forget what now. I changed it back to 80, since, after all, we are using 1138 as a stand-in for 80, and that fixed it.
 
 > Another really unfortunate bug was that some of the work I was doing while waiting for docker container builds to finish seeped into the stuff that got pushed. I think I made a change to a route so I included routes.ts in the push, but I also made OTHER changes to routes.ts that should not have been pushed.
 
@@ -62,7 +62,19 @@
 
 > It was honestly a nice refresher to go back to the whole migration cycle we did earlier in the term. It was encouraging that this process went very smoothly. I made the change to the model, whipped up a new Pin seeder, which actually made the Category, Company, and Type seeders obsolete. I was pretty pleased with the fact that it worked right away (aside from one minor off-by-one bug). Still more I'd like to add to the seeder (like only seeding what is not already there instead of deleting every time), but it works for now.
 
-> There's still the following to do:
-> * REQUIRED: Seed files into minio.
-> * OPTIONAL: Would love to redo the CSS from scratch. I should have done this from the get-go, and now it's a mess. I love CSS too; that's supposed to be the fun part. This is not a requirement though...an ugly website is still a website.
-> * REQUIRED: Make the video and submit
+## More 21 Mar 2023
+
+> Continued my all-nighter with getting minio seeding working. I almost had a heart attack when my VM started giving me the "empty server response" thing even though the nginx.conf and docker-compose.yaml files were the same as mine. After a `--no-cache` rebuild it works. Phew.
+
+## 22 Mar 2023
+
+> Ruin has come to my ~~family~~ I mean project. First of all, the minio seeding was not working as I thought. I had been getting some errors, but I thought that was because I had awkwardly tried to cap it at 100 instead of 1300+ images all getting seeded, and the ones over 100 were erroring, which I could live with. But nothing was actually getting added. The only files that ever got seeded were ones I had dragged and dropped in. In theory, this is not the worst thing, because these are not meant to be user-supplied images. I don't need to allow uploading in real time. A seeder would still be great, but in theory I could manually upload the images and just seed the filename to the pin table every time. So this is minor compare to...
+
+> Secondly, and fatally, I started getting these weird dns-related errors. They seemed to start as I was trying to implement seeding as part of my backend dockerfile, though I also was battling an issue where it was telling me I wasn't providing my auth credentials even though I was. Rather sloppily, I sort of addressed both things together instead of one at a time and who knows what side effects I might have caused. But the truly maddening part is that no matter how far back in the repo I go (old branches or previous commits), the postgres dns errors are still there. And I even started fresh on a new computer, on a new network (hotel wifi in Boston), on a different OS and it STILL plagues me.
+
+> IF everything had been working up until now, I would have liked to revamp the CSS. I made the mistake of trying to adapt what was already there (the default React+Vite landing page), so everything is kind of a mess and is not behaving as I expect. I even really enjoy CSS, so that was supposed to be the fun part.
+
+> I really like this idea for a website, but I think I will have to totally scrap it and start fresh so this dns thing goes away.
+
+> Thanks for a great term! Despite the frustrating conclusion, it is probably my favorite CS class I had in my entire time here at PSU.
+
